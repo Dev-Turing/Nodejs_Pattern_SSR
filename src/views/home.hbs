@@ -1,0 +1,64 @@
+<hr>
+<form method="POST">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="form-group">
+                <input type="text" name="api" class="form-control" id="api" placeholder="Please Enter Url">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-warning" style="width: 100%;" onclick="handerGet()">GET</button>
+        </div>            
+    </div>
+</form>
+<br>
+<div class="row" >
+    <div class="action">
+        <button type="button" class="btn btn-danger" onclick="isRaw()">Raw</button>
+        <button type="button" class="btn btn-warning" onclick="isParserd()">Parsed</button>
+    </div>
+</div>
+<div class="row">
+    <div class="content">
+                <textarea id="myTextarea" disabled>
+                    {{data}}
+                </textarea> 
+            </div>
+    </div>
+</div>
+<script>
+    let textArea = document.getElementById("myTextarea");
+    let input = document.getElementById('api');
+    
+    function setLocal(){
+        localStorage.setItem("data", textArea.value);
+    } 
+    setLocal();
+
+    function isParserd(){
+       if(localStorage.getItem("data") !== null || localStorage.getItem("data").length > 0){
+           let result = JSON.parse(localStorage.getItem("data"));
+           textArea.value = JSON.stringify(result,undefined,4) ;
+       }
+    }
+
+    function apiChange(){
+        if(localStorage.getItem("api") !== null || localStorage.getItem("api").length > 0){
+            input.value = localStorage.getItem("api") ;
+       }
+        input.addEventListener('change',event => {
+            console.log(event.target.value);
+        })
+    }
+    apiChange();
+
+    function isRaw(){
+        if(localStorage.getItem("data") !== null || localStorage.getItem("data").length > 0){
+           textArea.value = localStorage.getItem("data") ;
+       }
+    }
+
+    function handerGet(){
+        localStorage.setItem("api", input.value);
+    }
+</script>
